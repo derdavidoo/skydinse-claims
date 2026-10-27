@@ -31,7 +31,7 @@ To configure an installed client, edit `config/skydinseclaims-cloud.json` in the
 
 ```json
 {
-  "endpoint": "https://130.61.216.244",
+  "endpoint": "https://example.com",
   "token": "your-cloud-token"
 }
 ```

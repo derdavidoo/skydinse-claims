@@ -1,0 +1,34 @@
+plugins {
+    id 'application'
+}
+
+group = 'net.skydinse'
+version = project.server_version
+
+if (project.hasProperty('outputDir')) {
+    layout.buildDirectory.set(file(project.property('outputDir')))
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.14.0'
+    implementation 'org.xerial:sqlite-jdbc:3.53.4.0'
+    testImplementation platform('org.junit:junit-bom:5.13.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+application {
+    mainClass = 'net.skydinse.claims.server.ClaimsServer'
+}
+
+java {
+    toolchain { languageVersion = JavaLanguageVersion.of(25) }
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

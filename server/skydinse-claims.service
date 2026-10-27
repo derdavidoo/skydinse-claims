@@ -1,0 +1,21 @@
+[Unit]
+Description=Skydinse Claims cloud service
+After=network.target
+
+[Service]
+Type=simple
+User=skydinse
+Group=skydinse
+WorkingDirectory=/opt/skydinse-claims
+EnvironmentFile=/etc/skydinse-claims/server.env
+ExecStart=/opt/skydinse-claims/server/build/install/skydinse-claims-server/bin/skydinse-claims-server
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/skydinse-claims
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,31 @@
+# Gradle and IDE output
+.gradle/
+**/build/
+**/build-*/
+.idea/
+*.iml
+
+# Runtime data and diagnostics
+run/
+**/*.db
+**/*.db-*
+**/*.sqlite
+**/*.sqlite-*
+**/*.log
+skydinseclaims-scoreboard.log
+
+# Local client/server configuration and credentials
+**/config/skydinseclaims-cloud.json
+**/server.env
+**/server.env.*
+!**/server.env.example
+**/*private*.key
+**/*.pem
+**/*.p12
+**/*.pfx
+**/id_rsa*
+**/id_ed25519*
+
+# Local machine metadata
+.DS_Store
+Thumbs.db

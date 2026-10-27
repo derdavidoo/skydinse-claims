@@ -1,0 +1,11 @@
+[Unit]
+Description=Backup Skydinse Claims SQLite database
+Requires=skydinse-claims.service
+After=skydinse-claims.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/sbin/skydinse-claims-backup
+NoNewPrivileges=true
+PrivateTmp=true
+

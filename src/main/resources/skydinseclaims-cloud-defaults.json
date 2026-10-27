@@ -1,0 +1,4 @@
+{
+  "endpoint": "https://130.61.216.244",
+  "token": "${cloudToken}"
+}

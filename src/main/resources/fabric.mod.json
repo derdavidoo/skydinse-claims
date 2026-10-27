@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "skydinseclaims",
+  "version": "${version}",
+  "name": "Skydinse Claims",
+  "description": "Highlights MineAttack claimed chunks on Xaero's World Map.",
+  "authors": ["DerDavidoo"],
+  "icon": "assets/skydinseclaims/icon.png",
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["net.skydinse.claims.client.SkydinseClaimsClient"]
+  },
+  "mixins": [
+    {
+      "config": "skydinseclaims.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "26.3",
+    "java": ">=25",
+    "fabric-api": "*",
+    "xaeroworldmap": "~${xaeroVersion}"
+  }
+}

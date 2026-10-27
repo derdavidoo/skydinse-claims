@@ -1,0 +1,76 @@
+plugins {
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+base {
+    archivesName = project.archives_base_name
+}
+
+if (project.hasProperty("outputDir")) {
+    layout.buildDirectory.set(file(project.property("outputDir")))
+}
+
+repositories {
+    maven { name = 'Xaero'; url = 'https://chocolateminecraft.com/maven/' }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+
+    implementation "xaero.map:xaeroworldmap-common-${project.minecraft_version}:${project.xaero_version}"
+    runtimeOnly "xaero.map:xaeroworldmap-fabric-${project.minecraft_version}:${project.xaero_version}"
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "xaeroVersion", project.xaero_version
+    def releaseCloudToken = (project.findProperty("cloudToken") ?: System.getenv("SKYDINSE_CLAIMS_CLIENT_TOKEN") ?: "").toString()
+    inputs.property "cloudToken", releaseCloudToken
+
+    filesMatching("fabric.mod.json") {
+        expand version: project.version, xaeroVersion: project.xaero_version
+    }
+
+    filesMatching("skydinseclaims-cloud-defaults.json") {
+        expand cloudToken: releaseCloudToken
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 25
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+    withSourcesJar()
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.base.archivesName.get()}" }
+    }
+}
+
+tasks.register('verifyClaimParser', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'net.skydinse.claims.client.ClaimListParserTest'
+    javaLauncher = javaToolchains.launcherFor {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+// Parser checks use a standalone Java runner without an external test framework.
+tasks.named('test') {
+    failOnNoDiscoveredTests = false
+}
+
+check.dependsOn verifyClaimParser
